@@ -11,6 +11,8 @@ namespace GameBoardShop.Models
         public string? ImageURL { get; set; }
         public ItemCategory ItemCategory { get; set; }
         public ICollection<GameCategory>? GameCategories { get; set; }
+        public Guid ProducerId { get; set; }
+        public virtual Producer? Producer { get; set; }
 
     }
 }
