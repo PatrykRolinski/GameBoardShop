@@ -1,6 +1,7 @@
 ﻿using GameBoardShop.Data.Base;
 using GameBoardShop.Data.Contracts.Persistence;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace Persistence.Repositories
 {
@@ -27,10 +28,26 @@ namespace Persistence.Repositories
             await _context.SaveChangesAsync();
         }
 
+        public async Task<IEnumerable<T>> GetAll(params Expression<Func<T, object>>[] expression)
+        {
+            var query = _context.Set<T>().AsQueryable();
+            var result = expression.Aggregate(query, (current, next) => current.Include(next));
+            return await query.ToListAsync();
+        }
+
         public async Task<T?> GetById(Guid id)
         {
             return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
+
+        public async Task<T?> GetById(Guid id, params Expression<Func<T, object>>[] expression)
+        {
+            var query= _context.Set<T>().AsQueryable().Where(x=> x.Id==id);
+            var result= expression.Aggregate(query, (current, next) => current.Include(next));
+            return await query.FirstOrDefaultAsync();
+        }
+
+        
 
         public async Task<IEnumerable<T>> GettAll()
         {
