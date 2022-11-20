@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace Persistence.Repositories
 {
-    public class BaseRepository<T> : IBaseRepository<T> where T : class, IEntityBase, new()
+    public class BaseRepository<T> : IBaseRepository<T> where T : class, IEntityBase
     {
         protected readonly GameBoardShopContext _context;
 
