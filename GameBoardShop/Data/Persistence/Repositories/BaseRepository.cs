@@ -1,33 +1,47 @@
 ﻿using GameBoardShop.Data.Base;
 using GameBoardShop.Data.Contracts.Persistence;
+using Microsoft.EntityFrameworkCore;
 
 namespace Persistence.Repositories
 {
     public class BaseRepository<T> : IBaseRepository<T> where T : class, IEntityBase, new()
     {
-        public Task Add(T item)
+        protected readonly GameBoardShopContext _context;
+
+        public BaseRepository(GameBoardShopContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task Delete(Guid id)
+        public async Task Add(T item)
         {
-            throw new NotImplementedException();
+          await _context.Set<T>().AddAsync(item);
+          await _context.SaveChangesAsync();
+
         }
 
-        public Task<T> GetById(Guid id)
+        public async Task Delete(Guid id)
         {
-            throw new NotImplementedException();
+            var item = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
+            if (item is not null) _context.Set<T>().Remove(item);
+            await _context.SaveChangesAsync();
         }
 
-        public Task<IEnumerable<T>> GettAll()
+        public async Task<T?> GetById(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public Task Update(T TItem)
+        public async Task<IEnumerable<T>> GettAll()
         {
-            throw new NotImplementedException();
+            return await _context.Set<T>().AsNoTracking().ToListAsync();
+        }
+
+        public async Task Update(T TItem)
+        {
+            var entityEntry = _context.Entry<T>(TItem);
+            entityEntry.State= EntityState.Modified;
+            await _context.SaveChangesAsync();
         }
     }
 }
