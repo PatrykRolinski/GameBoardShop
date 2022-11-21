@@ -23,9 +23,11 @@ namespace Persistence.Repositories
 
         public async Task Delete(Guid id)
         {
-            var item = await _context.Set<T>().FirstOrDefaultAsync(x => x.Id == id);
-            if (item is not null) _context.Set<T>().Remove(item);
-            await _context.SaveChangesAsync();
+     
+            await _context.Set<T>()
+                .Where(t => t.Id == id)
+                .ExecuteDeleteAsync();
+            
         }
 
         public async Task<IEnumerable<T>> GetAll(params Expression<Func<T, object>>[] expression)
