@@ -1,4 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using GameBoardShop.Data.Contracts.Persistence;
+using GameBoardShop.Data.Persistence.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Persistence.Repositories;
 
 namespace Persistence
 {
@@ -10,7 +13,12 @@ namespace Persistence
             {
                 options.UseSqlServer(config.GetConnectionString("AppDbConnection"));
             });
+
+            services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
+            services.AddScoped<IProducerRepository, ProducerRepository>();
+
             return services;
+
         }
     }
 }
