@@ -1,4 +1,5 @@
 using GameBoardShop.Data.Services;
+using GameBoardShop.Data.Validators;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddGameBoardShopPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
+builder.Services.AddValidators();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
