@@ -1,0 +1,42 @@
+﻿@using GameBoardShop.ViewModels;
+@model NewProducerVM
+<div>
+    <h1 class="text-center my-5 ">Add Producer</h1>
+    <div class="container">
+         <form class="row justify-content-center gy-4" asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group text-center">
+                <img class="rounded-circle" id="ProfilePicturePreview" />
+            </div>
+            <div class="col-8">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="col-8">
+                <label asp-for="ImageURL" class="control-label"></label>
+                <input asp-for="ImageURL" class="form-control" />
+                <span asp-validation-for="ImageURL" class="text-danger"></span>
+            </div>
+            <div class="col-8">
+                <label asp-for="Description" class="control-label"></label>
+                <textarea rows="3" asp-for="Description" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
+            </div>
+            <div class="col-8 d-flex justify-content-between my-3">
+                <a class="btn btn-outline-secondary" asp-action="Index">Show All</a>
+                <input type="submit" value="Create" class="btn btn-success float-right" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+@section Scripts{
+    <script>
+        $("#ImageURL").on("change", function () {
+            var output = document.getElementById("ProfilePicturePreview");
+            output.src = $(this).val();
+        })
+    </script>}
