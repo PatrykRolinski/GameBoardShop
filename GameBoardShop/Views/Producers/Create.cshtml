@@ -5,21 +5,31 @@
     <div class="container">
          <form class="row justify-content-center gy-4" asp-action="Create">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group text-center">
-                <img class="rounded-circle" id="ProfilePicturePreview" />
+            <div class="container">
+                <div class="row justify-content-center mb-3">
+                    <div class="col-6 text-center">
+                        <h4>Logo Preview</h4>
+                    </div>
+                </div>
+                <div class="row justify-content-center">
+                    <div class="col-5 image-wrapper ">
+                        <img class="img-fluid w-100 h-100 rounded-circle border border-dark" id="ProfilePicturePreview" />
+                    </div>
+                </div>
+                    
             </div>
             <div class="col-8">
-                <label asp-for="Name" class="control-label"></label>
+                <label asp-for="Name" class="control-label mb-2"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
             </div>
             <div class="col-8">
-                <label asp-for="ImageURL" class="control-label"></label>
+                <label asp-for="ImageURL" class="control-label mb-2"></label>
                 <input asp-for="ImageURL" class="form-control" />
                 <span asp-validation-for="ImageURL" class="text-danger"></span>
             </div>
             <div class="col-8">
-                <label asp-for="Description" class="control-label"></label>
+                <label asp-for="Description" class="control-label mb-2"></label>
                 <textarea rows="3" asp-for="Description" class="form-control"></textarea>
                 <span asp-validation-for="Description" class="text-danger"></span>
             </div>
