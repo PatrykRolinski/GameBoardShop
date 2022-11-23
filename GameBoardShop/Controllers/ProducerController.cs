@@ -22,9 +22,11 @@ namespace GameBoardShop.Controllers
             _validator = validator;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var producersVM= _producerService.MapToProducerVM(await _repository.GettAll());
+
+            return View(producersVM);
         }
         [HttpGet("create")]
         public IActionResult Create()
@@ -50,7 +52,7 @@ namespace GameBoardShop.Controllers
 
             await _repository.Add(producer);
 
-            return RedirectToAction(nameof(Index), "Home");
+            return RedirectToAction(nameof(Index), "Producer");
         }
 
     }
