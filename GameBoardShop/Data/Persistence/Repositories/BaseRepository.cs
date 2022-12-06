@@ -21,12 +21,13 @@ namespace Persistence.Repositories
 
         }
 
-        public async Task Delete(Guid id)
+        public async Task<int> Delete(Guid id)
         {
      
-            await _context.Set<T>()
+           var numberOfRowsDeleted= await _context.Set<T>()
                 .Where(t => t.Id == id)
                 .ExecuteDeleteAsync();
+            return numberOfRowsDeleted;
             
         }
 

@@ -11,6 +11,6 @@ namespace GameBoardShop.Data.Contracts.Persistence
         Task<T?> GetById(Guid id, params Expression<Func<T, object>>[] expression);
         Task Add(T item);
         Task Update(T TItem);
-        Task Delete(Guid id);
+        Task<int> Delete(Guid id);
     }
 }

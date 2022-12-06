@@ -55,5 +55,18 @@ namespace GameBoardShop.Controllers
             return RedirectToAction(nameof(Index), "Producer");
         }
 
+        [HttpPost("delete/{id}")]
+        public async Task<IActionResult> Delete([FromRoute]Guid id)
+        {
+           var numbersOfRowsDeleted= await _repository.Delete(id);
+            if(numbersOfRowsDeleted != 1)
+            {
+                Response.StatusCode = 404;
+                return View("Error");
+            }
+
+            return RedirectToAction(nameof(Index), "Producer");
+        }
+
     }
 }
