@@ -63,7 +63,7 @@
                         </td>
                         <td>@Model[i].CreatedAt.ToShortDateString()</td>
                         <td>
-                            <a class="btn btn-primary"><i class="bi bi-pencil-square me-2"></i>Edit </a> 
+                            <a asp-action="Update" asp-route-id="@Model[i].Id" class="btn btn-primary"><i class="bi bi-pencil-square me-2"></i>Edit </a> 
                             <a class="btn btn-info"><i class="bi bi-eye me-2"></i>Details </a> 
                              @await Html.PartialAsync("_ConfirmDelete", new ConfirmDeleteVM(Model[i]!.Id,"Producer", @Model[i]!.Name!))
                         </td>

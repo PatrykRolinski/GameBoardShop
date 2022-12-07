@@ -18,6 +18,13 @@ namespace GameBoardShop.Data.Services
             return producer;
         }
 
+        public void UpdateModel(ProducerVM producerVM, Producer producer)
+        {
+            producer.Description = producerVM.Description;
+            producer.Name = producerVM.Name!;
+            producer.ImageURL = producer.ImageURL;
+        }
+
         public ProducerVM MapToProducerVM(Producer producer)
         {
             var vmProducer = new ProducerVM()

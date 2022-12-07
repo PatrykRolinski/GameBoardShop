@@ -28,6 +28,7 @@ namespace GameBoardShop.Controllers
 
             return View(producersVM);
         }
+
         [HttpGet("create")]
         public IActionResult Create()
         {
@@ -64,6 +65,35 @@ namespace GameBoardShop.Controllers
                 Response.StatusCode = 404;
                 return View("Error");
             }
+
+            return RedirectToAction(nameof(Index), "Producer");
+        }
+
+        [HttpGet("edit/{id}")]
+        public async Task<IActionResult> Update([FromRoute]Guid id)
+        {
+            var producer=  await _repository.GetById(id);
+            if (producer is null)
+            {
+                Response.StatusCode = 404;
+                return View("Error");
+            }
+            var producerVM = _producerService.MapToProducerVM(producer);
+            return View("Edit", producerVM);
+        }
+
+        [HttpPost("edit/{id}")]
+        public async Task<IActionResult> Update([FromRoute] Guid id, ProducerVM producerVM)
+        {
+            var producer = await _repository.GetById(id);
+            if (producer is null)
+            {
+                Response.StatusCode = 404;
+                return View("Error");
+            }
+            _producerService.UpdateModel(producerVM, producer);
+            
+            await _repository.Update(producer);
 
             return RedirectToAction(nameof(Index), "Producer");
         }
