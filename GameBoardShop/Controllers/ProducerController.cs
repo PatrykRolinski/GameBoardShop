@@ -98,5 +98,19 @@ namespace GameBoardShop.Controllers
             return RedirectToAction(nameof(Index), "Producer");
         }
 
+        [HttpGet("details/{id}")]
+        public async Task<IActionResult> Details([FromRoute] Guid id)
+        {
+            var producer = await _repository.GetById(id);
+            if (producer is null)
+            {
+                Response.StatusCode = 404;
+                return View("Error");
+            }
+            var producerVM= _producerService.MapToProducerVM(producer);
+            return View("Details", producerVM);
+
+        }
+
     }
 }
