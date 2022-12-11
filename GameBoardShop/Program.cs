@@ -1,5 +1,6 @@
 using GameBoardShop.Data.Services;
 using GameBoardShop.Data.Validators;
+using GameBoardShop.Middleware;
 using Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -9,13 +10,14 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddGameBoardShopPersistenceServices(builder.Configuration);
 builder.Services.AddApplicationServices();
 builder.Services.AddValidators();
+builder.Services.AddScoped<ExceptionHandlingMiddleware>();
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
+app.UseMiddleware<ExceptionHandlingMiddleware>();
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+      // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 

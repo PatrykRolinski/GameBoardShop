@@ -2,10 +2,10 @@
 using FluentValidation.AspNetCore;
 using GameBoardShop.Data.Contracts.IServices;
 using GameBoardShop.Data.Contracts.Persistence;
-using GameBoardShop.Models;
+using GameBoardShop.Exceptions;
 using GameBoardShop.ViewModels;
 using Microsoft.AspNetCore.Mvc;
-using System;
+
 
 namespace GameBoardShop.Controllers
 {
@@ -62,8 +62,7 @@ namespace GameBoardShop.Controllers
            var numbersOfRowsDeleted= await _repository.Delete(id);
             if(numbersOfRowsDeleted != 1)
             {
-                Response.StatusCode = 404;
-                return View("Error");
+                throw new NotFoundException($"Producer with id {id} not found");
             }
 
             return RedirectToAction(nameof(Index), "Producer");
@@ -75,8 +74,7 @@ namespace GameBoardShop.Controllers
             var producer=  await _repository.GetById(id);
             if (producer is null)
             {
-                Response.StatusCode = 404;
-                return View("Error");
+                throw new NotFoundException($"Producer with id {id} not found");
             }
             var producerVM = _producerService.MapToProducerVM(producer);
             return View("Edit", producerVM);
@@ -88,8 +86,7 @@ namespace GameBoardShop.Controllers
             var producer = await _repository.GetById(id);
             if (producer is null)
             {
-                Response.StatusCode = 404;
-                return View("Error");
+                throw new NotFoundException($"Producer with id {id} not found");
             }
             _producerService.UpdateModel(producerVM, producer);
             
@@ -104,8 +101,7 @@ namespace GameBoardShop.Controllers
             var producer = await _repository.GetById(id);
             if (producer is null)
             {
-                Response.StatusCode = 404;
-                return View("Error");
+                throw new NotFoundException($"Producer with id {id} not found");
             }
             var producerVM= _producerService.MapToProducerVM(producer);
             return View("Details", producerVM);
