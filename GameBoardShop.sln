@@ -7,7 +7,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "GameBoardShop", "GameBoardS
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6A33DC43-D38F-4AA6-B3AC-9728534B2CE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "UnitTests\UnitTests.csproj", "{CBE83AA8-5E6E-4FFC-9571-31F5A1D529F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UnitTests", "UnitTests\UnitTests.csproj", "{CBE83AA8-5E6E-4FFC-9571-31F5A1D529F8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTests", "IntegrationTests\IntegrationTests.csproj", "{BAD5143E-F531-4F21-8893-DD66BF97BEA5}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,12 +25,17 @@ Global
 		{CBE83AA8-5E6E-4FFC-9571-31F5A1D529F8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CBE83AA8-5E6E-4FFC-9571-31F5A1D529F8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CBE83AA8-5E6E-4FFC-9571-31F5A1D529F8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BAD5143E-F531-4F21-8893-DD66BF97BEA5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAD5143E-F531-4F21-8893-DD66BF97BEA5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAD5143E-F531-4F21-8893-DD66BF97BEA5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAD5143E-F531-4F21-8893-DD66BF97BEA5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{CBE83AA8-5E6E-4FFC-9571-31F5A1D529F8} = {6A33DC43-D38F-4AA6-B3AC-9728534B2CE5}
+		{BAD5143E-F531-4F21-8893-DD66BF97BEA5} = {6A33DC43-D38F-4AA6-B3AC-9728534B2CE5}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {47C307DB-2F32-4EAC-B1AA-2721C83935D4}
