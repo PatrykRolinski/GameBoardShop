@@ -1,0 +1,15 @@
+﻿#create-button{
+    position:fixed;
+    right:5rem;
+    bottom:3rem;
+    z-index:3;
+}
+
+@media only screen and (max-width: 600px) {
+    #create-button{
+        position:absolute;
+        top:57px;
+        right:30px;
+        
+    }
+}
