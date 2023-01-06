@@ -1,5 +1,5 @@
 ﻿using FluentValidation;
-using GameBoardShop.ViewModels;
+using GameBoardShop.ViewModels.ProducerModels;
 
 namespace GameBoardShop.Data.Validators
 {

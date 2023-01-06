@@ -1,7 +1,7 @@
 ﻿using FluentValidation.TestHelper;
 using GameBoardShop.Data.Contracts.Persistence;
 using GameBoardShop.Data.Validators;
-using GameBoardShop.ViewModels;
+using GameBoardShop.ViewModels.ProducerModels;
 using Moq;
 
 namespace UnitTests.Validators;

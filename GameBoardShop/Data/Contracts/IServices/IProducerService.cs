@@ -1,5 +1,5 @@
 ﻿using GameBoardShop.Models;
-using GameBoardShop.ViewModels;
+using GameBoardShop.ViewModels.ProducerModels;
 
 namespace GameBoardShop.Data.Contracts.IServices
 {

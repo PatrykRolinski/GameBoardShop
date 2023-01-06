@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace GameBoardShop.ViewModels
+namespace GameBoardShop.ViewModels.ProducerModels
 {
     public class ProducerVM
     {
