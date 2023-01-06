@@ -30,16 +30,11 @@ namespace GameBoardShop.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<Guid?>("ItemId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("ItemId");
 
                     b.ToTable("GameCategories");
                 });
@@ -64,10 +59,11 @@ namespace GameBoardShop.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
-                    b.Property<int?>("Price")
-                        .HasColumnType("int");
+                    b.Property<Guid>("PriceId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<Guid>("ProducerId")
                         .HasColumnType("uniqueidentifier");
@@ -80,6 +76,30 @@ namespace GameBoardShop.Migrations
                     b.HasIndex("ProducerId");
 
                     b.ToTable("Items");
+                });
+
+            modelBuilder.Entity("GameBoardShop.Models.Price", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("DateTime")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smalldatetime")
+                        .HasDefaultValueSql("convert(smalldatetime, GETUTCDATE())");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<decimal>("Value")
+                        .HasColumnType("decimal(8,2)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("Prices");
                 });
 
             modelBuilder.Entity("GameBoardShop.Models.Producer", b =>
@@ -99,7 +119,8 @@ namespace GameBoardShop.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
 
                     b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
@@ -109,11 +130,19 @@ namespace GameBoardShop.Migrations
                     b.ToTable("Producers");
                 });
 
-            modelBuilder.Entity("GameBoardShop.Models.GameCategory", b =>
+            modelBuilder.Entity("GameCategoryItem", b =>
                 {
-                    b.HasOne("GameBoardShop.Models.Item", null)
-                        .WithMany("GameCategories")
-                        .HasForeignKey("ItemId");
+                    b.Property<int>("GameCategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("ItemId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("GameCategoriesId", "ItemId");
+
+                    b.HasIndex("ItemId");
+
+                    b.ToTable("GameCategoryItem");
                 });
 
             modelBuilder.Entity("GameBoardShop.Models.Item", b =>
@@ -127,9 +156,35 @@ namespace GameBoardShop.Migrations
                     b.Navigation("Producer");
                 });
 
+            modelBuilder.Entity("GameBoardShop.Models.Price", b =>
+                {
+                    b.HasOne("GameBoardShop.Models.Item", "Item")
+                        .WithMany("Price")
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Item");
+                });
+
+            modelBuilder.Entity("GameCategoryItem", b =>
+                {
+                    b.HasOne("GameBoardShop.Models.GameCategory", null)
+                        .WithMany()
+                        .HasForeignKey("GameCategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("GameBoardShop.Models.Item", null)
+                        .WithMany()
+                        .HasForeignKey("ItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("GameBoardShop.Models.Item", b =>
                 {
-                    b.Navigation("GameCategories");
+                    b.Navigation("Price");
                 });
 
             modelBuilder.Entity("GameBoardShop.Models.Producer", b =>

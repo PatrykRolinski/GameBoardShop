@@ -13,6 +13,11 @@ namespace Persistence.Configuration
             builder.Property(i => i.Name)
                  .HasMaxLength(50)
                  .IsRequired();
+
+            builder.HasMany(p => p.Items)
+                .WithOne(i => i.Producer)
+                .HasForeignKey(i => i.ProducerId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

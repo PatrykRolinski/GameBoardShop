@@ -15,13 +15,13 @@ namespace Persistence.Configuration
                 .HasMaxLength(100)
                 .IsRequired();
 
-            builder.HasOne(i=> i.Producer)
-                .WithMany()
-                .HasForeignKey(i=> i.ProducerId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.HasMany(i => i.GameCategories)
                 .WithMany();
+
+            builder.HasMany(i => i.Price)
+                .WithOne(p=> p.Item)
+                .HasForeignKey(p=> p.ItemId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

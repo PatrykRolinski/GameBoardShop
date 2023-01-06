@@ -12,11 +12,24 @@ namespace GameBoardShop.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
+                name: "GameCategories",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_GameCategories", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Producers",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(50)", maxLength: 50, nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -32,8 +45,8 @@ namespace GameBoardShop.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Price = table.Column<int>(type: "int", nullable: true),
+                    Name = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
+                    PriceId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Description = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ImageURL = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     ItemCategory = table.Column<int>(type: "int", nullable: false),
@@ -53,38 +66,74 @@ namespace GameBoardShop.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "GameCategories",
+                name: "GameCategoryItem",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
+                    GameCategoriesId = table.Column<int>(type: "int", nullable: false),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_GameCategories", x => x.Id);
+                    table.PrimaryKey("PK_GameCategoryItem", x => new { x.GameCategoriesId, x.ItemId });
                     table.ForeignKey(
-                        name: "FK_GameCategories_Items_ItemId",
+                        name: "FK_GameCategoryItem_GameCategories_GameCategoriesId",
+                        column: x => x.GameCategoriesId,
+                        principalTable: "GameCategories",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_GameCategoryItem_Items_ItemId",
                         column: x => x.ItemId,
                         principalTable: "Items",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Prices",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Value = table.Column<decimal>(type: "decimal(8,2)", nullable: false),
+                    DateTime = table.Column<DateTime>(type: "smalldatetime", nullable: false, defaultValueSql: "convert(smalldatetime, GETUTCDATE())"),
+                    ItemId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Prices", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Prices_Items_ItemId",
+                        column: x => x.ItemId,
+                        principalTable: "Items",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_GameCategories_ItemId",
-                table: "GameCategories",
+                name: "IX_GameCategoryItem_ItemId",
+                table: "GameCategoryItem",
                 column: "ItemId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Items_ProducerId",
                 table: "Items",
                 column: "ProducerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Prices_ItemId",
+                table: "Prices",
+                column: "ItemId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "GameCategoryItem");
+
+            migrationBuilder.DropTable(
+                name: "Prices");
+
             migrationBuilder.DropTable(
                 name: "GameCategories");
 
