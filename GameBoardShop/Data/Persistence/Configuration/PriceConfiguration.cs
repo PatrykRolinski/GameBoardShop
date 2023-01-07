@@ -12,7 +12,7 @@ namespace GameBoardShop.Data.Persistence.Configuration
 
             builder.Property(p => p.DateTime)
                 .HasColumnType("smalldatetime")
-                .HasDefaultValueSql("convert(smalldatetime, GETUTCDATE())");
+                .HasDefaultValueSql("GETUTCDATE()");
 
             builder.Property(p => p.Value)
                 .HasColumnType("decimal(8,2)");
