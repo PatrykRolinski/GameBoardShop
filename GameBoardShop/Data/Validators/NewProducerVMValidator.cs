@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 using GameBoardShop.Data.Contracts.Persistence;
-using GameBoardShop.ViewModels;
+using GameBoardShop.ViewModels.ProducerModels;
 
 namespace GameBoardShop.Data.Validators
 {

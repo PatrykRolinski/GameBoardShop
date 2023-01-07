@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using GameBoardShop.Models;
-using GameBoardShop.ViewModels;
+using GameBoardShop.ViewModels.ProducerModels;
 using IntegrationTests.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 using Persistence;

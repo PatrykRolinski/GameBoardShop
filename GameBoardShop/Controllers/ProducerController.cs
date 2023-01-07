@@ -3,7 +3,7 @@ using FluentValidation.AspNetCore;
 using GameBoardShop.Data.Contracts.IServices;
 using GameBoardShop.Data.Contracts.Persistence;
 using GameBoardShop.Exceptions;
-using GameBoardShop.ViewModels;
+using GameBoardShop.ViewModels.ProducerModels;
 using Microsoft.AspNetCore.Mvc;
 
 
