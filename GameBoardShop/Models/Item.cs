@@ -6,7 +6,6 @@ namespace GameBoardShop.Models
     public class Item : EntityBase
     {
         public required string Name { get; set; }
-        public Guid PriceId { get; set; }
         public virtual IEnumerable<Price>? Price { get; set; }
         public string? Description { get; set; }
         public string? ImageURL { get; set; }
