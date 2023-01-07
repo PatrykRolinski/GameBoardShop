@@ -16,6 +16,8 @@ namespace Persistence
 
             services.AddScoped(typeof(IBaseRepository<>), typeof(BaseRepository<>));
             services.AddScoped<IProducerRepository, ProducerRepository>();
+            services.AddScoped<IItemRepository, ItemRepository>();
+            services.AddScoped<IGameCategoryRepository, GameCategoryRepository>();
 
             return services;
 
