@@ -1,5 +1,7 @@
-﻿using GameBoardShop.Data.Contracts.Persistence;
+﻿using GameBoardShop.Data.Contracts.IServices;
+using GameBoardShop.Data.Contracts.Persistence;
 using GameBoardShop.Data.Persistence.Repositories;
+using GameBoardShop.Data.Services;
 using Microsoft.EntityFrameworkCore;
 using Persistence.Repositories;
 

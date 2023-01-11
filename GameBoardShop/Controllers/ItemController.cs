@@ -1,5 +1,6 @@
 ﻿using FluentValidation;
 using FluentValidation.AspNetCore;
+using GameBoardShop.Data.Contracts.IServices;
 using GameBoardShop.Data.Contracts.Persistence;
 using GameBoardShop.Data.Enums;
 using GameBoardShop.Data.Validators.ItemValidators;
@@ -16,17 +17,21 @@ namespace GameBoardShop.Controllers
         private readonly IItemRepository _itemRepository;
         private readonly IGameCategoryRepository _gameCategoryRepository;
         private readonly IValidator<NewItemVM> _validator;
+        private readonly IItemService _itemService;
 
-        public ItemController(IItemRepository itemRepository, IGameCategoryRepository gameCategoryRepository, IValidator<NewItemVM> validator)
+        public ItemController(IItemRepository itemRepository, IGameCategoryRepository gameCategoryRepository, IValidator<NewItemVM> validator, IItemService itemService)
         {
             _itemRepository = itemRepository;
             _gameCategoryRepository = gameCategoryRepository;
             _validator = validator;
+            _itemService = itemService;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var itemList= await _itemRepository.GetAll(i=> i!.Price, i=> i!.Producer, i=> i!.GameCategories);
+            var itemVMList = _itemService.MapToItemVM(itemList);
+            return View(itemVMList);
         }
 
         [HttpGet("create")]
@@ -46,6 +51,10 @@ namespace GameBoardShop.Controllers
             if(!validationResult.IsValid) 
             {
                 validationResult.AddToModelState(this.ModelState);
+
+                var dropdownItems = await _itemRepository.GetDropdownItems();
+                ViewBag.Producers = new SelectList(dropdownItems.Producers, "Id", "Name");
+                ViewBag.GameCategories = new SelectList(dropdownItems.GameCategories, "Id", "Name");
 
                 // re-render the view when validation failed.
                 return View("create", newItemVM);

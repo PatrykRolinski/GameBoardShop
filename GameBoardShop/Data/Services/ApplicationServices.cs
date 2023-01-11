@@ -7,6 +7,7 @@ namespace GameBoardShop.Data.Services
         public static IServiceCollection AddApplicationServices (this IServiceCollection services)
         {
             services.AddScoped<IProducerService, ProducerService>();
+            services.AddScoped<IItemService, ItemService>();
 
             return services;
         }
