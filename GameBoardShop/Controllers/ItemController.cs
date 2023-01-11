@@ -1,5 +1,8 @@
-﻿using GameBoardShop.Data.Contracts.Persistence;
+﻿using FluentValidation;
+using FluentValidation.AspNetCore;
+using GameBoardShop.Data.Contracts.Persistence;
 using GameBoardShop.Data.Enums;
+using GameBoardShop.Data.Validators.ItemValidators;
 using GameBoardShop.Models;
 using GameBoardShop.ViewModels.ItemModels;
 using Microsoft.AspNetCore.Mvc;
@@ -12,11 +15,13 @@ namespace GameBoardShop.Controllers
     {
         private readonly IItemRepository _itemRepository;
         private readonly IGameCategoryRepository _gameCategoryRepository;
+        private readonly IValidator<NewItemVM> _validator;
 
-        public ItemController(IItemRepository itemRepository, IGameCategoryRepository gameCategoryRepository)
+        public ItemController(IItemRepository itemRepository, IGameCategoryRepository gameCategoryRepository, IValidator<NewItemVM> validator)
         {
             _itemRepository = itemRepository;
             _gameCategoryRepository = gameCategoryRepository;
+            _validator = validator;
         }
 
         public IActionResult Index()
@@ -36,7 +41,16 @@ namespace GameBoardShop.Controllers
         [HttpPost("create")]
         public async Task<IActionResult> Create(NewItemVM newItemVM)
         {
-            var item = new Item() { Name = newItemVM.Name, CreatedAt=DateTime.UtcNow };
+            var validationResult= await _validator.ValidateAsync(newItemVM);
+
+            if(!validationResult.IsValid) 
+            {
+                validationResult.AddToModelState(this.ModelState);
+
+                // re-render the view when validation failed.
+                return View("create", newItemVM);
+            }
+            var item = new Item() { Name = newItemVM.Name!, CreatedAt=DateTime.UtcNow };
             
             item.Description = newItemVM.Description;
             item.ImageURL = newItemVM.ImageURL;
