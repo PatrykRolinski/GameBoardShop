@@ -33,8 +33,8 @@ namespace Persistence.Repositories
 
         public async Task<IEnumerable<T>> GetAll(params Expression<Func<T, object>>[] expression)
         {
-            var query = _context.Set<T>().AsQueryable();
-            var result = expression.Aggregate(query, (current, next) => current.Include(next));
+            var query = _context.Set<T>().AsQueryable().AsNoTracking();
+            query = expression.Aggregate(query, (current, next) => current.Include(next));
             return await query.ToListAsync();
         }
 
@@ -45,8 +45,8 @@ namespace Persistence.Repositories
 
         public async Task<T?> GetById(Guid id, params Expression<Func<T, object>>[] expression)
         {
-            var query= _context.Set<T>().AsQueryable().Where(x=> x.Id==id);
-            var result= expression.Aggregate(query, (current, next) => current.Include(next));
+            var query = _context.Set<T>().AsQueryable().Where(x=> x.Id==id);
+            query = expression.Aggregate(query, (current, next) => current.Include(next));
             return await query.FirstOrDefaultAsync();
         }
 
